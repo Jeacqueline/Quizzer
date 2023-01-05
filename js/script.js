@@ -134,13 +134,13 @@ function showScores() {
             <a href="highscores.html">Submit</a>
         </div>
         <div class= "again">
-            <a href="index.html">Take Quiz Again</a>
+            <a href="quizzer.html">Take Quiz Again</a>
         </div>
         <div class= "high-scores">
             <a href="highscores.html">High Scores</a>
         </div>
         <div class= "home">
-            <a href="main.html">Home</a>
+            <a href="index.html">Home</a>
         </div>
 
     `;
