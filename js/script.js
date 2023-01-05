@@ -1,20 +1,19 @@
 //to start the time 
-let time = 1;
-let TimeInMinutes = time * 60 * 60;
-quizTime = TimeInMinutes / 60;
+var time = 60;
+quizTime = time;
 
-let counting = document.getElementById("secLeft");
+var count = document.getElementById("secLeft");
 
 function timeLeft() {
-    let quizTimer = setInterval (function(){
+    var quizTimer = setInterval (function(){
         if (quizTime <= 0) {
             clearInterval(quizTimer);
             showScores();
         } else {
             quizTime--;
-            let sec = Math.floor(quizTime % 60);
-            let min = Math.floor(quizTime / 60) % 60;
-            counting.innerHTML = `Time: ${min} :  ${sec}`;
+            var sec = Math.floor(quizTime % 60);
+            var min = Math.floor(quizTime / 60) % 60;
+            count.innerHTML = `Time: ${min} :  ${sec}`;
         }
     }, 1000)
 }
@@ -33,13 +32,13 @@ class Quizzer{
     }
 
     guess(answer){
-        if (this.getQuestionIndex().isCorrectAnswer(answer)){
+        if (this.getQuestionIndex().correctAnswer(answer)){
             this.score++;
         }
         this.questionIndex++;
     }
 
-    isEnded(){
+    quizzerEnd(){
         return this.questionIndex === this.questions.length;
     }
 }
@@ -51,32 +50,44 @@ class myQuestions{
         this.answer = answer;
     }
     
-    isCorrectAnswer(choice){
+    correctAnswer(choice){
         return this.answer === choice;
     }
 }
  
 function displayQuestion(){
-    if (quiz.isEnded()){
+    if (quiz.quizzerEnd()){
         showScores();
 
     } else {
-        let questionElement = document.getElementById("allQuestions");
+        var questionElement = document.getElementById("allQuestions");
         questionElement.innerHTML = quiz.getQuestionIndex().text;
 
-        let choices = quiz.getQuestionIndex().choices;
-        for (let i = 0; i < choices.length; i++) {
-            let choiceElement = document.getElementById("option" + i);
+        var choices = quiz.getQuestionIndex().choices;
+        for (var i = 0; i < choices.length; i++) {
+            var choiceElement = document.getElementById("option" + i);
             choiceElement.innerHTML = choices[i];
             guess("btn" + i, choices[i]);
         }
 
-        showProgress();
+        scoree();
     }
 };
 
+function scoree() {
+var scoreSoFar = quiz.questionIndex + 1;
+var progressElement = document.getElementById("highscore");
+progressElement.innerHTML = 
+`Progress ${scoreSoFar} of ${quiz.questions.length}`;
+
+}
+
+incrementScore = num => {
+    score += num
+    scoreText.innerHTML = score
+}
 //in order to apear: question, options, answer
-let questions = [
+var questions = [
     new myQuestions(
         "Which of the following symbols is used to choose one option or the other?", ["===","||","&&",">="], "||"
     ),
@@ -100,13 +111,13 @@ let questions = [
     )
 ];
 
-let quiz = new Quizzer (questions);
+var quiz = new Quizzer (questions);
 
 displayQuestion();
 
 
 function guess(id, guess) {
-    let button = document.getElementById(id);
+    var button = document.getElementById(id);
     button.onclick = function() {
         quiz.guess(guess);
         displayQuestion();
@@ -114,9 +125,9 @@ function guess(id, guess) {
 }
 
 function showScores() {
-    let quizEndHTML =
+    var quizEndHTML =
     `
-        <h1>Quiz Completed</h1>
+        <h1>Quizzer Completed 🤓</h1>
         <h2 id="score">You Scored: ${quiz.score} of ${quiz.questions.length}</h2>
         <div class= "submit-score">
         <input id="placeholder" placeholder="Enter your initials">
@@ -133,14 +144,11 @@ function showScores() {
         </div>
 
     `;
-    let quizElement = document.getElementById("quizzer");
+    var quizElement = document.getElementById("quizzer");
     quizElement.innerHTML = quizEndHTML;
 }
 
 
 
-incrementScore = num => {
-    score += num
-    scoreText.innerHTML = score
-}
+
 
